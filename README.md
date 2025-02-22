@@ -1,22 +1,54 @@
-# My Python Project
+# Pythonプロジェクト
 
-This is a boilerplate repository for a Python project.
+このリポジトリはPythonプロジェクトのボイラープレートです。
 
-## Features
+## 機能
 
-- Minimal packaging using setuptools.
-- Structured with src/ and tests/ directories.
-- Sample main entry point.
-- Example using pytest for tests.
+- setuptoolsを使用したシンプルなパッケージング
+- src/とtests/ディレクトリによる構造化
+- メインプログラムのエントリーポイント
+- pytestを使用したテスト例
+- Dockerによる開発環境のサポート
 
-## Usage
+## 使い方
 
-Run the main program:
+メインプログラムの実行:
 
     python -m my_project.main
 
-## Testing
+### Dockerを使用する場合
 
-Run tests:
+開発環境をDockerで構築することもできます。
+
+1. 開発環境の起動:
+
+```bash
+docker compose up -d
+```
+
+2. コンテナ内でコマンドを実行:
+
+```bash
+# コンテナのシェルにアクセス
+docker compose exec app /bin/bash
+```
+
+3. 開発環境の停止:
+
+```bash
+docker compose down
+```
+
+## テスト
+
+テストの実行:
 
     pytest
+
+### Dockerでのテスト実行
+
+コンテナ内でテストを実行:
+
+```bash
+docker compose exec app pytest
+```
