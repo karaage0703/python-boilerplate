@@ -31,3 +31,21 @@
      ```
      - position: diffの行番号（新規ファイルの場合は1から開始）
      - commit_id: PRの最新のコミットIDを自動取得
+
+## コマンド実行時の出力確認
+
+- 標準出力が見える環境の場合は、通常通りコマンドを実行してください
+- 標準出力が見えない環境（例：Docker環境）の場合は、以下の手順で出力を確認してください：
+  ```bash
+  # 標準出力と標準エラー出力を別々のファイルに保存
+  コマンド > stdout.txt 2> stderr.txt
+  ```
+  そして、それぞれのファイルを確認：
+  ```
+  <read_file>
+  <path>stdout.txt</path>
+  </read_file>
+
+  <read_file>
+  <path>stderr.txt</path>
+  </read_file>
