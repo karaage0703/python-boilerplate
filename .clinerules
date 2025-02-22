@@ -13,3 +13,39 @@
 
 - PEP8に従ったコードを書いてください
 - ruffのフォーマッタでファイルの保存と同時に自動整形するので、フォーマットの修正は不要です
+- GoogleスタイルのDocstringを書いてください
+- テストコードを tests ディレクトリ以下に src ディレクトリと同じ構成で作成してください
+- テストコードを作成したら pytest を実行してエラー無いことを確認してください。エラーが出たら修正してください
+- Pull Request(PR)を要望されたら、gitコマンドで差分を確認したうえで、`gh pr` コマンドを使ってPRを作成してください。PRのdescriptionは .github/pull_request_template.md を読み取ってフォーマットを合わせてください
+- git管理されているファイルは、git mv や git rm を使って移動削除してください
+- Pull Request(PR)のレビューを行う際は、以下の手順でファイルごとにコメントを付けてください：
+  1. チェックする観点は .github/pull_request_template.md を参照してください
+  2. PRの差分を確認: `gh pr diff <PR番号>`でPRの差分を確認
+  3. ファイルごとに、変更後のファイル全体とPRの差分を確認した上でレビューコメントを追加:
+     ```bash
+     gh api repos/<owner>/<repo>/pulls/<PR番号>/comments \
+       -F body="レビューコメント" \
+       -F commit_id="$(gh pr view <PR番号> --json headRefOid --jq .headRefOid)" \
+       -F path="対象ファイルのパス" \
+       -F position=<diffの行番号>
+     ```
+     - position: diffの行番号（新規ファイルの場合は1から開始）
+     - commit_id: PRの最新のコミットIDを自動取得
+
+## コマンド実行時の出力確認
+
+- 標準出力が見える環境の場合は、通常通りコマンドを実行してください
+- 標準出力が見えない環境（例：Docker環境）の場合は、以下の手順で出力を確認してください：
+  ```bash
+  # 標準出力と標準エラー出力を別々のファイルに保存
+  コマンド > stdout.txt 2> stderr.txt
+  ```
+  そして、それぞれのファイルを確認：
+  ```
+  <read_file>
+  <path>stdout.txt</path>
+  </read_file>
+
+  <read_file>
+  <path>stderr.txt</path>
+  </read_file>
