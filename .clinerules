@@ -2,50 +2,90 @@
 
 ## ロール定義
 
-あなたは熟練のPythonプログラマとしてコードを書いてください
+あなたは熟練のPythonプログラマとしてコードを書いてください。
+
 
 ## 期待する回答
 
 - 実装コードは省略せず、完全な形で提供
 - 日本語での詳細な説明
 
+
 ## 注意事項
+
+### 設計書
+
+- 新規開発時は docs ディレクトリ以下に以下の内容を含む設計書を作成してください：
+  - 要件定義書 requirements.md
+  - 設計書（概略・機能・クラス構成） design.md
+- 既存のソフトウェアを修正する場合：
+  - 既存の設計書を参照してソフトウェアを開発してください
+  - 修正内容に応じて設計書も更新してください
+- 設計書を作成したら、コードを作成する前にユーザーに設計書のチェックを依頼してください
+
+### コーディング規約
 
 - PEP8に従ったコードを書いてください
 - ruffのフォーマッタでファイルの保存と同時に自動整形するので、フォーマットの修正は不要です
 - GoogleスタイルのDocstringを書いてください
+
+### テストコード
+
 - テストコードを tests ディレクトリ以下に src ディレクトリと同じ構成で作成してください
 - テストコードを作成したら pytest を実行してエラー無いことを確認してください。エラーが出たら修正してください
-- Pull Request(PR)を要望されたら、gitコマンドで差分を確認したうえで、`gh pr` コマンドを使ってPRを作成してください。PRのdescriptionは .github/pull_request_template.md を読み取ってフォーマットを合わせてください
+
+### Git操作
+
 - git管理されているファイルは、git mv や git rm を使って移動削除してください
-- Pull Request(PR)のレビューを行う際は、以下の手順でファイルごとにコメントを付けてください：
-  1. チェックする観点は .github/pull_request_template.md を参照してください
-  2. PRの差分を確認: `gh pr diff <PR番号>`でPRの差分を確認
-  3. ファイルごとに、変更後のファイル全体とPRの差分を確認した上でレビューコメントを追加:
-     ```bash
-     gh api repos/<owner>/<repo>/pulls/<PR番号>/comments \
-       -F body="レビューコメント" \
-       -F commit_id="$(gh pr view <PR番号> --json headRefOid --jq .headRefOid)" \
-       -F path="対象ファイルのパス" \
-       -F position=<diffの行番号>
-     ```
-     - position: diffの行番号（新規ファイルの場合は1から開始）
-     - commit_id: PRの最新のコミットIDを自動取得
+
+### Pull Request(PR)
+
+#### PR作成時
+- PRを要望されたら、gitコマンドで差分を確認したうえで、`gh pr` コマンドを使ってPRを作成してください
+- PRのdescriptionは .github/pull_request_template.md を読み取ってフォーマットを合わせてください
+
+#### PRレビュー時
+以下の手順でファイルごとにコメントを付けてください：
+
+1. チェックする観点は .github/pull_request_template.md を参照してください
+2. PRの差分を確認:
+   ```bash
+   gh pr diff <PR番号>
+   ```
+
+3. ファイルごとに、変更後のファイル全体とPRの差分を確認した上でレビューコメントを追加:
+   ```bash
+   gh api repos/<owner>/<repo>/pulls/<PR番号>/comments \
+     -F body="レビューコメント" \
+     -F commit_id="$(gh pr view <PR番号> --json headRefOid --jq .headRefOid)" \
+     -F path="対象ファイルのパス" \
+     -F position=<diffの行番号>
+   ```
+
+   パラメータの説明：
+   - position: diffの行番号（新規ファイルの場合は1から開始）
+   - commit_id: PRの最新のコミットIDを自動取得
+
 
 ## コマンド実行時の出力確認
 
-- 標準出力が見える環境の場合は、通常通りコマンドを実行してください
-- 標準出力が見えない環境（例：Docker環境）の場合は、以下の手順で出力を確認してください：
-  ```bash
-  # 標準出力と標準エラー出力を別々のファイルに保存
-  コマンド > stdout.txt 2> stderr.txt
-  ```
-  そして、それぞれのファイルを確認：
-  ```
-  <read_file>
-  <path>stdout.txt</path>
-  </read_file>
+### 標準出力が見える環境の場合
+- 通常通りコマンドを実行してください
 
-  <read_file>
-  <path>stderr.txt</path>
-  </read_file>
+### 標準出力が見えない環境（例：Docker環境）の場合
+以下の手順で出力を確認してください：
+
+1. 標準出力と標準エラー出力を別々のファイルに保存：
+   ```bash
+   コマンド > stdout.txt 2> stderr.txt
+   ```
+
+2. それぞれのファイルを確認：
+   ```bash
+   <read_file>
+   <path>stdout.txt</path>
+   </read_file>
+
+   <read_file>
+   <path>stderr.txt</path>
+   </read_file>
